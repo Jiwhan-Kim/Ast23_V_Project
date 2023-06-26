@@ -35,8 +35,8 @@ class CNN(nn.Module):
         self.audio_layer = nn.Sequential(
             # Audio Layer
             
-            # batch x 3 x samples -> batch x 16 x samples / 4
-            nn.Conv1d(in_channels=3, out_channels=16, kernel_size=3, padding=1),
+            # batch x 1 x samples -> batch x 16 x samples / 4
+            nn.Conv1d(in_channels=1, out_channels=16, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool1d(4),
 

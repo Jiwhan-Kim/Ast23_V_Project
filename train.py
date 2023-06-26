@@ -19,3 +19,15 @@ elif torch.cuda.is_available():
     device = "cuda:0"
 else:
     device = "cpu"
+
+batch_size = 16
+epoch      = 200
+
+
+if __name__ == "__main__":
+    print("Training Mode")
+    print("Device on Working: ", device)
+
+    model   = M.CNN.to(device)
+    trainer = T.trainer(0.0001, model, device)
+    
