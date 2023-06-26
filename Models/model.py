@@ -70,4 +70,3 @@ class CNN(nn.Module):
         out = torch.concat((out_image, out_sound), dim=0)
         out = self.fclayer(out)
         return out
-

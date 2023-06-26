@@ -1,2 +1,2 @@
-from .model import fa
-from .trainer import fb
+from .model import CNN
+

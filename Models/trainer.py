@@ -1,4 +1,0 @@
-def fb():
-    print("bb")
-
-    
