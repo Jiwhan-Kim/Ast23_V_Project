@@ -50,9 +50,9 @@ if __name__ == "__main__":
     print("Training Mode")
     print("Device on Working: ", device)
 
-    model   = M.CNN.to(device)
+    model   = M.CNN().to(device)
     trainer = T.trainer(0.0001, model, device)
-    train_load, test_load = D.getData()
+    train_load, test_load = D.getData(batch_size)
 
     model.load_state_dict(torch.load('model_params.pth'))
 
