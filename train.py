@@ -6,6 +6,7 @@ Training Mode
 
 import torch
 import numpy as np
+from os import path
 
 import Models   as M
 import Trainers as T
@@ -29,12 +30,11 @@ category = [
     "Eagle",    # 5
     "Lion",     # 6
     "Pig",      # 7
-    "Sheep",    # 8
-    "Tiger"     # 9
+    "Sheep"     # 8
 ]
 
-batch_size = 16
-epoch      = 200
+batch_size = 8
+epoch      = 20
 
 
 def train(loader, n_epoch):
@@ -54,7 +54,10 @@ if __name__ == "__main__":
     trainer = T.trainer(0.0001, model, device)
     train_load, test_load = D.getData(batch_size)
 
-    model.load_state_dict(torch.load('model_params.pth'))
+    '''
+    if path.exists("./model_params_cnn.pth"):
+        model.load_state_dict(torch.load("./model_params_cnn.pth"))
+    '''
 
     for i in range(1, epoch + 1):
         train(train_load, i)
@@ -62,7 +65,7 @@ if __name__ == "__main__":
     # Training Done
     with torch.no_grad():
         model.eval()
-        val = np.zeros(10, dtype=int)
+        val = np.zeros(9, dtype=int)
         correct = 0
 
         for image, sound, label in test_load:
@@ -73,13 +76,14 @@ if __name__ == "__main__":
             output = model.forward(images, sounds)
             result = torch.argmax(output, dim=1)
             for res, ans in zip(result, labels):
+                print("Predicted: {} / Answer: {}".format(category[res], category[ans]))
                 if res == ans:
                     val[res] += 1
-            correct += batch_size - torch.count_nonzero(result - labels)
+                    correct += 1
         
-        print("Final Result - Accuracy: {}\n\n".format(100 * correct / 50))
-        for i in range(10):
+        print("Final Result - Accuracy: {}\n\n".format(100 * correct / 45))
+        for i in range(9):
             print("class: {}: {} / 5".format(category[i], val[i]))
         
-        torch.save(model.state_dict(), 'model_params.pth')
+        torch.save(model.state_dict(), 'model_params_cnn.pth')
 

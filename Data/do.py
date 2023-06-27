@@ -1,15 +1,9 @@
 import os
 
-cnt = 0
-for i in range(10):
-	spec = str(i) + '/'
-	routes = os.path.join("./Sounds/", spec)
-	file_names = os.listdir(routes)
-	for name in file_names:
-		paths = "./Images/" + str(i) + "/"
-		src = os.path.join(paths, name)
-		ass = str(cnt) + ".jpg"
-		dst = os.path.join("./Sounds", ass)
-		os.rename(src, dst)
-		cnt += 1
+for i in range(1, 271):
+	names = str(i) + ".jpg"
+	wavs = str(i) + ".wav"
+	src = os.path.join("./Sounds/", names)
+	dst = os.path.join("./Sounds/", wavs)
+	os.rename(src, dst)
 

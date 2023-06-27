@@ -30,12 +30,11 @@ category = [
     "Eagle",    # 5
     "Lion",     # 6
     "Pig",      # 7
-    "Sheep",    # 8
-    "Tiger"     # 9
+    "Sheep"     # 8
 ]
 
-batch_size = 50
-epoch      = 30
+batch_size = 8
+epoch      = 20
 
 
 def train(loader, n_epoch):
@@ -59,13 +58,14 @@ if __name__ == "__main__":
     if path.exists("./model_params.pth"):
         model.load_state_dict(torch.load("./model_params.pth"))
     '''
+
     for i in range(1, epoch + 1):
         train(train_load, i)
     
     # Training Done
     with torch.no_grad():
         model.eval()
-        val = np.zeros(10, dtype=int)
+        val = np.zeros(9, dtype=int)
         correct = 0
 
         for image, label in test_load:
@@ -75,13 +75,13 @@ if __name__ == "__main__":
             output = model.forward(images)
             result = torch.argmax(output, dim=1)
             for res, ans in zip(result, labels):
-                print(res, ans)
+                print("Predicted: {} / Answer: {}".format(category[res], category[ans]))
                 if res == ans:
                     val[res] += 1
                     correct += 1
         
-        print("\nFinal Result - Accuracy: {}\n".format(100 * correct / 50))
-        for i in range(10):
+        print("\nFinal Result - Accuracy: {}\n".format(100 * correct / 45))
+        for i in range(9):
             print("class: {}: {} / 5".format(category[i], val[i]))
         
         torch.save(model.state_dict(), 'model_params.pth')

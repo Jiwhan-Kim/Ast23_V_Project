@@ -10,8 +10,6 @@ class MyDataSet(Dataset):
 
         self.images -= (avg_image)
         self.images /= (std_image)
-
-        print(avg_image, std_image)
     def __len__(self):
         return self.images.shape[0]
 
@@ -31,7 +29,7 @@ def getOnlyImage(batch_size=1):
 
     train_label = np.empty(shape=0)
     test_label  = np.empty(shape=0)
-    for i in range(10):
+    for i in range(9):
         for j in range(30):
             temp_img = data_image[i * 30 + j].reshape(1, 128, 128, 3)
             temp_img_flipped = np.flip(temp_img, axis=2).copy()

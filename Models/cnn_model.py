@@ -38,7 +38,7 @@ class simpleCNN(nn.Module):
             nn.ReLU(),
             nn.Linear(((width * height) >> 5), ((width * height) >> 8)), # 512  -> 64
             nn.ReLU(),
-            nn.Linear(((width * height) >> 8), 10)                       # 64   -> 10
+            nn.Linear(((width * height) >> 8), 9)                        # 64   -> 9
         )
 
     def forward(self, images):

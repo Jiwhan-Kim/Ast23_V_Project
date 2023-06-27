@@ -10,7 +10,7 @@ def ImgToNpConverter()->np.ndarray:
         return ret_np_img
     
     ret_np_img = np.empty(shape=(0, 128, 128, 3), dtype=np.uint8)
-    for i in range(1, 301):
+    for i in range(1, 271):
         print(i)
         route      = "./Data/Images/" + str(i) + ".jpg"
         img        = Image.open(route)
@@ -28,12 +28,13 @@ def WavToNpConverter()->np.ndarray:
         print(".wav to Numpy Load Completed")
         return ret_np_wav
     
-    ret_np_wav = np.empty(shape=(0, 1, 32768), dtype=np.float32)
-    for i in range(1, 301):
+    ret_np_wav = np.empty(shape=(0, 1, 32768), dtype=np.uint16)
+    for i in range(1, 271):
         route      = "./Data/Sounds/" + str(i) + ".wav"
-        sound   = read(route)[1]
+        sound      = read(route)[1]
         np_wav     = np.fft.fft(sound)
         np_wav     = np.fft.fftshift(np_wav)
+        np_wav     = np.absolute(np_wav)
         np_wav     = np_wav.reshape(1, 1, 32768)
         ret_np_wav = np.append(ret_np_wav, np_wav, axis=0)
     

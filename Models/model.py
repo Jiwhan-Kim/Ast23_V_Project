@@ -38,15 +38,21 @@ class CNN(nn.Module):
             # batch x 1 x samples -> batch x 16 x samples / 4
             nn.Conv1d(in_channels=1, out_channels=16, kernel_size=3, padding=1),
             nn.ReLU(),
+            nn.Conv1d(in_channels=16, out_channels=16, kernel_size=3, padding=1),
+            nn.ReLU(),
             nn.MaxPool1d(4),
 
             # batch x 16 x samples / 4 -> batch x 8 x samples / 16
             nn.Conv1d(in_channels=16, out_channels=8, kernel_size=3, padding=1),
             nn.ReLU(),
+            nn.Conv1d(in_channels=8, out_channels=8, kernel_size=3, padding=1),
+            nn.ReLU(),
             nn.MaxPool1d(4),
 
             # batch x 8 x samples / 16 -> batch x 4 x samples / 64
             nn.Conv1d(in_channels=8, out_channels=4, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.Conv1d(in_channels=4, out_channels=4, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool1d(4),
         )
@@ -57,16 +63,16 @@ class CNN(nn.Module):
             nn.ReLU(),
             nn.Linear(((width * height) >> 5) + (samples >> 7), ((width * height) >> 8) + (samples >> 10)), # 512  + 256  -> 64 + 32
             nn.ReLU(),
-            nn.Linear(((width * height) >> 8) + (samples >> 10), 10)                                        # 64   + 32   -> 10
+            nn.Linear(((width * height) >> 8) + (samples >> 10), 9)                                         # 64   + 32   -> 9
         )
 
     def forward(self, images, sounds):
         out_image = self.img_layer(images)
-        out_sound = self.img_layer(sounds)
+        out_sound = self.audio_layer(sounds)
 
-        out_image = out.view(images.shape[0], -1)
-        out_sound = out.view(sounds.shape[0], -1)
+        out_image = out_image.view(images.shape[0], -1)
+        out_sound = out_sound.view(sounds.shape[0], -1)
 
-        out = torch.concat((out_image, out_sound), dim=0)
-        out = self.fclayer(out)
+        out = torch.concat((out_image, out_sound), dim=1)
+        out = self.fc_Layer(out)
         return out
