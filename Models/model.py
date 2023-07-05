@@ -40,21 +40,21 @@ class CNN(nn.Module):
             nn.ReLU(),
             nn.Conv1d(in_channels=16, out_channels=16, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.MaxPool1d(4),
+            nn.AvgPool1d(4),
 
             # batch x 16 x samples / 4 -> batch x 8 x samples / 16
             nn.Conv1d(in_channels=16, out_channels=8, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.Conv1d(in_channels=8, out_channels=8, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.MaxPool1d(4),
+            nn.AvgPool1d(4),
 
             # batch x 8 x samples / 16 -> batch x 4 x samples / 64
             nn.Conv1d(in_channels=8, out_channels=4, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.Conv1d(in_channels=4, out_channels=4, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.MaxPool1d(4),
+            nn.AvgPool1d(4),
         )
         self.fc_Layer = nn.Sequential(
             # width * height = 16,384
